@@ -1,0 +1,114 @@
+﻿
+@{
+    ViewBag.Title = "Registro";
+}
+
+<script type="text/javascript" src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script src="~/Scripts/bootstrap.js"></script>
+<link href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/smtp.js"></script>
+@*<h2>Registro</h2>*@
+
+<!--formulario para registrar cliente-->
+<body style="background-color:lightslategrey;">
+    <div class="container login-container">
+        <div class="row">
+            <div class="col-md-6 login-form-2">
+                <h3>Registrar Nuevo Cliente</h3>
+                <div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Tu Nombre Completo *" id="txtNombre" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Tu Correo*" id="txtCorreo" />
+                    </div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Confirmar Tu Correo*" id="txtCorreoConfirmar" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Tu Contraseña *" id="txtContraseña" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="password" class="form-control" placeholder="Confirmar Tu Contraseña *" id="txtContraseñaConfirmar" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="button" class="btnSubmit" value="Registrar" id="btnIniciarSesion" />
+                    </div>
+                    <div class="form-group">
+                        <a href="#" class="ForgetPwd" value="Login">¿Olvidaste Tu Contraseña?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+<script>
+    //mandar a llamar las functiones creadas
+    var apiUrl = "http://xamarin.somee.com";
+    $(document).ready(function () {
+        $("#btnIniciarSesion").click(CodigoVerificador);
+        $("#btnIniciarSesion").click(ValidarCorreo);
+
+    });
+    //registrar usuario y enviar correo
+    function RegistrarUsuario(verificador) {
+        var params = {
+            Nombre: $("#txtNombre").val().toUpperCase(),
+            Correo: $("#txtCorreo").val().toUpperCase(),
+            Contraseña: $("#txtContraseña").val(),
+            Verificador: verificador,
+            Verificado: "N"
+        };
+        $.ajax({
+            type: "POST",
+            url: apiUrl + "/Registro/RegistrarUsuario",
+            data: params,
+            success: function (r, s, j) {
+
+                Email.send({
+                    SecureToken: 'b3203c8d-4739-41ac-baed-d3f0c7cfd5e3',
+                    To: $("#txtCorreo").val(),
+                    From: 'mandarcorreo2020@gmail.com',
+                    Subject: 'Verificación de correo | DUO',
+                    Body: 'Para verificar su correo haga click <a href="' + apiUrl + '/Registro/VerificarUsuario?Verificador=' + verificador + '">aquí</a>'
+                }).then(
+                    alert("Se ha registrado satisfactoriamente, se ha enviado un mensaje a su correo para verificar")
+                );
+                location.href = "/Anuncio/Anuncio";
+            },
+            dataType: "Text"
+        });
+    }
+
+    //validar correo enviado
+    function CodigoVerificador() {
+        $.ajax({
+            type: "POST",
+            url: apiUrl + "/Registro/Verificador",
+            data: "",
+            success: function (r, s, j) {
+                RegistrarUsuario(r);
+            },
+            dataType: "Json"
+        });
+    }
+
+    //verificar correo que el correo de arriba sea igual al correo de abajo y igual con la contraseña
+    function ValidarCorreo() {
+        if ($("#txtCorreo").val() != $("#txtCorreoConfirmar").val()) {
+            alert("Los correos deben coincidir");
+            return;
+        }
+        else {
+            if ($("#txtContraseña").val() != $("#txtContraseñaConfirmar").val()) {
+                alert("Las contraseñas deben coincidir");
+                return;
+            }
+        }
+        //CodigoVerificador();
+    }
+</script>

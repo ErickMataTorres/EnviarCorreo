@@ -1,0 +1,159 @@
+﻿
+@{
+    ViewBag.Title = "RegistrarMonedero";
+}
+
+
+
+<script type="text/javascript"  src="~/Scripts/jquery-3.3.1.min.js"></script>
+<script  src="~/Scripts/bootstrap.js"></script>
+<link    href="~/Content/bootstrap.css" rel="stylesheet" />
+<script src="~/Scripts/smtp.js"></script>
+
+
+<!--formulario para registrar cliente-->
+<body id="RegistrarMonedero" style="background-color:white;">
+    <div class="container login-container">
+        <div class="row">
+            <div class="col-md-6 login-form-2">
+                <h3>Registrar Monedero</h3>
+                <div>
+
+                    <div class="form-group">
+                        <input type="text" id="CargarId"  class="form-control" placeholder="Ingresar Id" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Ingresar IdRegistrar" id="txtIdRegistrarGuardar" />
+                    </div>
+
+                    
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Ingresar Numero Monedero" id="txtNumeroMonederoGuardar" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Ingresa Telefono" id="txtTelefonoGuardar" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Ingresar Pais" id="txtPaisGuardar" />
+                    </div>
+
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Ingresar Estado" id="txtEstadoGuardar" />
+                    </div>
+
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Ingresar Ciudad" id="txtCiudadGuardar" />
+                    </div>
+
+                    <div class="form-group">
+                        @*<button type="button" class="btn btn-primary" id="btnAdd" onclick="return Add();">Agregar</button>*@
+                        <input type="button" class="btnSubmit" value="Registrar Monedero" id="btnRegistrarMonederoGuardar" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+
+<script>
+    var apiUrl = "http://webventa.somee.com";
+    $(document).ready(function () {
+        $("#btnRegistrarMonederoGuardar").click(Guardar)
+       
+    });
+
+    //funcion para guardar cliente
+    function Guardar() {
+        var params =
+        {
+
+            Id: $("#txtIdGuardar").val(),
+            IdRegistrar: sessionStorage.getItem("IdUsuario"),
+        
+            NumeroMonedero: $("#txtNumeroMonederoGuardar").val(),
+            Telefono: $("#txtTelefonoGuardar").val(),
+            Pais: $("#txtPaisGuardar").val().toUpperCase(),
+            Estado: $("#txtEstadoGuardar").val().toUpperCase(),
+            Ciudad: $("#txtCiudadGuardar").val().toUpperCase(),
+          
+
+        };
+        $.ajax
+            ({
+                type: "POST",
+                url: apiUrl + "/RegistrarMonedero/GuardarMonedero",
+                data: params,
+                success: function (r, s, j) {
+                    if (r.startsWith("Ok")) {
+                        alert("Se Guardo Correctamente");
+                    }
+                    else {
+
+                        alert(r);
+                    }
+                    //location.href = "/Registro/MiPerfil";
+                },
+                dataType: "Text"
+            });
+    }
+
+    //// esconder registrar monedero
+    //  function Esconder() {
+    //        var usuario = sessionStorage.getItem("Nombre");//Usuario
+    //        var correo = sessionStorage.getItem("Correo");
+    //        var verificador = sessionStorage.getItem("Verificador");
+    //        if (verificador == null || verificador == "") {
+    //            $("#liSesion").show();
+    //            $("#liCerrar").hide();
+    //            $("#liNombre").hide();
+    //            $("#liRegistrarMonedero").hide();
+    //        }
+    //        else {
+    //            $("#liSesion").hide();
+    //            $("#liRegistrar").hide();
+               
+    //            //$("#liCerrar").hide();
+
+    //        }
+    //   }
+
+    //poner datos en caja de texto   
+    //function PonerCorreo()
+    //{
+    //    let lNombreGuardar = document.querySelector("#lNombreGuardar");
+    //    let lblCorreoGuardar = document.querySelector("#lblCorreoGuardar");
+
+    //    lNombreGuardar.innerHTML = "";
+    //    lblCorreoGuardar.innerHTML = "";
+       
+    //    lNombreGuardar.innerHTML = sessionStorage.getItem("Nombre");
+    //    lblCorreoGuardar.innerHTML = sessionStorage.getItem("Correo");
+        
+    //}
+
+
+    // CARGAR ID CUANDO SEA EDITADO
+    // function CargarId(id) {
+    //    var param =
+    //    {
+    //        Id: id
+    //    };
+    //    $.ajax
+    //        ({
+    //            type: "POST",
+    //            url: apiUrl + "/RegistrarMonedero/CargarId",
+    //            data: param,
+    //            success: function (r, s, j) {
+    //                $("#txtIdGuardar").val(r[0].Id);
+    //            },
+    //            dataType: "Json"
+    //        });
+    //}
+  
+
+</script>

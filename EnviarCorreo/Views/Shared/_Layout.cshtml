@@ -1,0 +1,179 @@
+﻿
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=utf-8" />
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+
+     <script src="https://code.jquery.com/jquery-3.4.1.slim.min.js" integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n" crossorigin="anonymous"></script>
+
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+
+    <title>@ViewBag.Title</title>
+
+
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css" integrity="sha384-lZN37f5QGtY3VHgisS14W3ExzMWZxybE1SJSEsQp9S+oqd12jhcu+A56Ebc1zFSJ" crossorigin="anonymous">
+
+
+
+    <script src="https://kit.fontawesome.com/a076d05399.js"></script>
+
+    <script src="~/Scripts/modernizr-2.8.3.js"></script>
+    <script src="~/Scripts/jquery-3.3.1.js"></script>
+    <link href="~/Css/barra.css" rel="stylesheet" />
+
+    @*<link href="~/Content/Site.css" rel="stylesheet" type="text/css" />
+        <link href="~/Content/bootstrap.min.css" rel="stylesheet" type="text/css" />
+        <script src="~/Scripts/modernizr-2.8.3.js"></script>*@
+
+
+
+</head>
+<body>
+
+    <ul class="topnav">
+        <li>
+            <a href="~/Home/Index">DUO</a>
+        </li>
+
+        <li>
+            <a class="text-muted" href="">#SoyQuienSoy</a>
+        </li>
+
+        <li>
+            <a href="~/Novedades/Novedades">Novedades</a>
+        </li>
+
+        <li>
+            <a href="">Venta de Pasillo<span class="sr-only">(current)</span></a>
+        </li>
+
+        <li>
+            <a href="~/Ropa/Ropa">Ropa<span class="sr-only">(current)</span></a>
+        </li>
+
+        <li>
+
+            <a href="">Zapatos Accs<span class="sr-only">(current)</span></a>
+        </li>
+
+        <li>
+
+            <a class="text-danger" href="~/Promociones/Promociones">Promociones<span class="sr-only">(current)</span></a>
+        </li>
+        
+        @*<li>
+            <a  href="~/Saldo/Saldo">Saldos<span class="sr-only">(current)</span></a>
+        </li>*@ 
+
+        <li id="liRegistrarMonedero">
+
+            <a  href="~/RegistrarMonedero/RegistrarMonedero">Registrar Monedero<span class="sr-only">(current)</span></a>
+        </li>
+
+        <li style="float:right">
+
+            <a href="">About<span class="sr-only">(current)</span></a>
+        </li>
+
+
+        <li style="float:right" id="liRegistrar">
+
+            <a href="~/Registro/Registro">Registrar<span class="sr-only">(current)</span></a>
+        </li>
+
+
+        <li style="float:right" id="liSesion">
+
+            <a href="~/Sesion/Sesion">Iniciar Sesión<span class="sr-only">(current)</span></a>
+        </li>
+
+
+        <!--bolsa de compra-->
+        <li style="float:right">
+
+            <a  data-toggle="tooltip"  title="Bolsa de Compra" class="fas fa-shopping-bag" href=""><span class="sr-only">(current)</span></a>
+        </li>
+
+
+        <!--aqui inicia me gusta-->
+        <li style="float:right">
+
+            <a data-toggle="tooltip" title="Me gusta" class="fas fa-heart" href=""><span class="sr-only">(current)</span></a>
+        </li>
+        <!--aqui termina corazon me gusta-->
+
+        <!--comienza buscar-->
+        <li style="float:right">
+            <a class="fas fa-search" href=""><span class="sr-only">(current)</span></a>
+        </li>
+        <!--fin buscar-->
+
+        <li id="liNombre">
+            <a id="lblNombre" href="~/Registro/MiPerfil"><span class="sr-only">(current)</span></a>
+        </li>
+
+        <li id="liCerrar">
+            <a style="color:white" onclick="CerrarSesion()">Cerrar Sesión<span class="sr-only">(current)</span></a>
+
+        </li>
+
+    </ul>
+
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year-DUO</p>
+        </footer>
+    </div>
+    <script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js" integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo" crossorigin="anonymous"></script>
+    <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js" integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6" crossorigin="anonymous"></script>
+   
+    <script>
+        //mandar a llamar todas las function
+        $(document).ready(function () {
+            PonerNombre();
+            Esconder();
+        });
+        function PonerNombre() {
+            let liNombre = document.querySelector("#lblNombre");
+            liNombre.innerHTML = "";
+            liNombre.innerHTML = sessionStorage.getItem("Nombre");
+        }
+        function CerrarSesion() {
+            sessionStorage.removeItem("Nombre");
+            sessionStorage.removeItem("Correo");
+            sessionStorage.removeItem("Verificador");
+            location.href = "http://xamarin.somee.com/Sesion/Sesion";
+        }
+        function Esconder() {
+            var usuario = sessionStorage.getItem("Nombre");//Usuario
+            var correo = sessionStorage.getItem("Correo");
+            var verificador = sessionStorage.getItem("Verificador");
+            if (verificador == null || verificador == "") {
+                $("#liSesion").show();
+                $("#liCerrar").hide();
+                $("#liNombre").hide();
+                $("#liRegistrarMonedero").hide();
+            }
+            else {
+                $("#liSesion").hide();
+                $("#liRegistrar").hide();
+               
+                //$("#liCerrar").hide();
+
+            }
+        }
+    </script>
+</body>
+
+
+
+</html>

@@ -1,0 +1,30 @@
+﻿@{
+    ViewBag.Title = "MiPerfil";
+}
+<script src="~/Scripts/jquery-3.3.1.js"></script>
+<script src="~/Scripts/smtp.js"></script>
+
+
+<h2>Datos</h2>
+<b>Nombre: </b><label id="lbNombre"></label>
+               <hr />           
+<b>Correo: </b><label id="lblCorreo"></label>
+      
+
+<script>
+    $(document).ready(function () {
+        PonerDatos();
+
+    });
+    function PonerDatos() {
+        let lbNombre = document.querySelector("#lbNombre");
+        let lblCorreo = document.querySelector("#lblCorreo");
+        
+        lbNombre.innerHTML = "";
+        lblCorreo.innerHTML = "";
+       
+        lbNombre.innerHTML = sessionStorage.getItem("Nombre");
+        lblCorreo.innerHTML = sessionStorage.getItem("Correo");
+        
+    }
+</script>

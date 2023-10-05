@@ -1,0 +1,154 @@
+﻿
+@{
+    ViewBag.Title = "Sesion";
+}
+<script type="text/javascript" src="~/Scripts/smtp.js"></script>
+@*<h2>Sesion</h2>*@
+
+
+<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+        integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+        crossorigin="anonymous">
+
+</script>
+
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+        integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+        crossorigin="anonymous">
+
+</script>
+
+
+
+<!DOCTYPE html>
+<html>
+
+<body style="background-color:lightslategrey;">
+    <div class="container login-container">
+        <div class="row">
+            <div class="col-md-6 login-form-2">
+                <h3>Iniciar Sesión</h3>
+                <div>
+                    <div class="form-group">
+                        <input type="text" class="form-control" placeholder="Tu Correo *" id="txtCorreo" />
+                    </div>
+                    <div class="form-group">
+
+                        <input type="password" class="form-control" placeholder="Tu Contraseña *" id="txtContraseña" />
+                    </div>
+                    <div class="form-group">
+                        <input type="button" class="btnSubmit" value="Iniciar Sesión" id="btnIniciarSesion" />
+                    </div>
+                    <div class="form-group">
+
+                        <a href="#" class="ForgetPwd" value="Login">¿Olvidaste Tu Contraseña?</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalVerificar">
+        <div class="modal-dialog modal-dialog-centered" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Verificar</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        Su cuenta no está verificada, para mandar un mensaje de verificación a su correo, por favor de
+                        click en botón Enviar Correo
+                    </p>
+                    <button class="form-control" id="btnEnviarCorreo">Enviar Correo</button>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal" tabindex="-1" role="dialog" id="modalValidado">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title">Bienvenido</h5>
+                </div>
+                <div class="modal-body">
+                    <p>Bienvenido a DUO, ha iniciado sesión.</p>
+                </div>
+                <div class="modal-footer">
+                    @*<button type="button" class="btn btn-secondary" data-dismiss="modal">Cerrar</button>*@
+                </div>
+            </div>
+        </div>
+    </div>
+</body>
+</html>
+
+
+<script>
+    var apiLink = "http://webventa.somee.com";
+    $(document).ready(function () {
+        $("#btnIniciarSesion").click(ValidarUsuario);
+       
+    });
+    function ValidarUsuario() {
+        var params = {
+            Correo: $("#txtCorreo").val().toUpperCase(),
+            Contraseña: $("#txtContraseña").val()
+        };
+        $.ajax({
+            type: "POST",
+            url: apiLink + "/Registro/ValidarUsuario",
+            data: params,
+            success: function (r, s, j) {
+                if(r.Correo==$("#txtCorreo").val().toUpperCase()&&r.Contraseña==$("#txtContraseña").val())
+                {
+                    if(r.Verificado=="N"){
+                        $("#modalVerificar").modal("show");
+                        $("#btnEnviarCorreo").click(function(){
+                            MandarCorreo(r.Verificador);
+                        });
+                    }   
+                    else{
+                        $("#modalValidado").modal("show");
+                        sessionStorage.setItem("Nombre", r.Nombre);
+                        sessionStorage.setItem("Correo",r.Correo);
+                        sessionStorage.setItem("Verificador", r.Verificador);
+                        sessionStorage.setItem("IdUsuario", r.Id);
+                        setTimeout(function(){                        
+                            location.href=apiLink+"/Registro/MiPerfil";
+                        },3000);
+                    }
+                }
+                else{
+                    $("#modalIncorrecto").modal("show");
+                }
+
+            },
+            dataType: "Json"
+        });
+    }
+    function MandarCorreo(verificador) {
+                Email.send({
+                    SecureToken: '2ad2f377-4edc-42ad-bd6e-b15ced486ae5',
+                    To: $("#txtCorreo").val(),
+                    From: 'enlineaventa12@gmail.com',
+                    Subject: 'Verificación de correo | DUO',
+                    Body: 'Para verificar su correo haga click <a href="' + apiLink + '/Registro/VerificarUsuario?Verificador=' + verificador + '">aquí</a>'
+                }).then(
+                    message => alert("Se ha enviado un mensaje a su correo para verificar")
+                );
+    }
+
+ 
+</script>
+
+
+
